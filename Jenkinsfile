@@ -1,3 +1,4 @@
+
 pipeline{
     agent{
         label "jenkin-agent"
@@ -33,8 +34,10 @@ pipeline{
 
         stage("sonar-test"){
             steps{
-                withSonarQubeEnv('sonar-token'){
+                script {
+                    withSonarQubeEnv(credentialsId: 'sonar-token') {
                     sh "mvn sonar:sonar"
+                    }
                 } 
             }
         }
