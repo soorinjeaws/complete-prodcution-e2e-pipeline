@@ -1,4 +1,3 @@
-
 pipeline{
     agent{
         label "jenkin-agent"
@@ -41,5 +40,15 @@ pipeline{
                 } 
             }
         }
+        stage("Qaulity-Date"){
+            steps{
+                script {
+                    waitForQualityGate abortPipeline: false, credentialsId:'sonar-token'
+                } 
+            }
+        }
+
+
+
     }
 }
