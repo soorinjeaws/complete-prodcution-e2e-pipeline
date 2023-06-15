@@ -1,3 +1,4 @@
+
 pipeline {
     agent {
         label "jenkin-agent"
@@ -70,6 +71,13 @@ pipeline {
                      docker_image.push("${IMAGE_TAG}")
                      docker_image.push('latest')
                    }
+                } 
+            }
+        }
+         stage("trigger-cd-pipleline") {
+            steps {
+                script {
+                   sh "curl -v -k --user admin:${JENKINS_API_TOKEN} -X POST -H 'cache-control: no-cache' -H 'content-type: application/x-www-form-urlencoded' --data 'IMAGE_TAG=${IMAGE_TAG}' 'https://jenkin-server.techcont.com/job/gitops-complete-pipeline/buildWithParameters?token=gitops-token'"
                 } 
             }
         }
